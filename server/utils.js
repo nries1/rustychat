@@ -38,7 +38,8 @@ const tellGold = (client, channel, username) => {
 }
 
 const initTwitchClient = () => {
-    const env = dotenv || process.ENV
+    const env = dotenv || process.ENV;
+    console.log('process.env', process.ENV);
     const clientId = env.CLIENT_ID;
     const accessToken = env.ACCESS_TOKEN;
     const refreshToken = env.REFRESH_TOKEN;
