@@ -38,13 +38,14 @@ const tellGold = (client, channel, username) => {
 }
 
 const initTwitchClient = () => {
-    const clientId = dotenv.CLIENT_ID;
-    const accessToken = dotenv.ACCESS_TOKEN;
-    const refreshToken = dotenv.REFRESH_TOKEN;
-    const clientSecret = dotenv.CLIENT_SECRET;
-    const dbPw = dotenv.PSQL_PW;
-    const dbUn = dotenv.PSQL_USER;
-    const expiryTimestamp = eval(dotenv.EXPIRY_TIMESTAMP);
+    const env = dotenv || process.ENV
+    const clientId = env.CLIENT_ID;
+    const accessToken = env.ACCESS_TOKEN;
+    const refreshToken = env.REFRESH_TOKEN;
+    const clientSecret = env.CLIENT_SECRET;
+    const dbPw = env.PSQL_PW;
+    const dbUn = env.PSQL_USER;
+    const expiryTimestamp = eval(env.EXPIRY_TIMESTAMP);
     const twitchClient = TwitchClient.withCredentials(clientId, accessToken, undefined, {
         clientSecret,
         refreshToken,
