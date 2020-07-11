@@ -1,9 +1,8 @@
-const dotenv = require('dotenv').config().parsed;
 const TwitchClient = require('twitch');
 const ChatClient = require('twitch-chat-client');
 const { dota2 } = require('../emotes');
 const fs = require('fs');
-const { db, User } = require('./db');
+const { db, environment, User } = require('./db');
 const { TriviaGame } = require('./trivia');
 
 const parseEnv = () => {
@@ -38,15 +37,13 @@ const tellGold = (client, channel, username) => {
 }
 
 const initTwitchClient = (env) => {
-    console.log('process.env', process.ENV);
-    console.log('dotenv ', env);
-    const clientId = env.CLIENT_ID;
-    const accessToken = env.ACCESS_TOKEN;
-    const refreshToken = env.REFRESH_TOKEN;
-    const clientSecret = env.CLIENT_SECRET;
-    const dbPw = env.PSQL_PW;
-    const dbUn = env.PSQL_USER;
-    const expiryTimestamp = eval(env.EXPIRY_TIMESTAMP);
+    const clientId = environment.CLIENT_ID;
+    const accessToken = environment.ACCESS_TOKEN;
+    const refreshToken = environment.REFRESH_TOKEN;
+    const clientSecret = environment.CLIENT_SECRET;
+    const dbPw = environment.PSQL_PW;
+    const dbUn = environment.PSQL_USER;
+    const expiryTimestamp = eval(environment.EXPIRY_TIMESTAMP);
     const twitchClient = TwitchClient.withCredentials(clientId, accessToken, undefined, {
         clientSecret,
         refreshToken,

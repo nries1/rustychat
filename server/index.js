@@ -1,8 +1,7 @@
 const { initTwitchClient, startDb, initChatClient } = require('./utils');
-const dotenv = require('dotenv').config().parsed;
 
 async function main() {
-    const twitchClient = initTwitchClient(dotenv);
+    const twitchClient = initTwitchClient();
     initChatClient(twitchClient, ['RylaiCrestfallen', 'rustydota2'])
 }
 
