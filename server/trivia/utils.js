@@ -32,8 +32,7 @@ class TriviaGame {
         const { client, channel, askQuestion } = this;
         this.on = true;
         console.log(`Trivia game started on ${channel}`)
-        client.say(channel, `Sup chat! I'm Trivia Bot :)`);
-        client.say(channel, `Gimme a sec to load some questions...`)
+        client.say(channel, `Sup chat! I'm Trivia Bot :) \r\n Gimme a sec to load some questions...`);
         askQuestion.call(this);
     }
     stop() {
@@ -73,10 +72,11 @@ class TriviaGame {
             const choices = scrambleChoices(incorrect_answers.concat(correct_answer))
             game.roundChoices = choicesObject(choices);
             const letters = ['a', 'b', 'c', 'd']
-            client.say(channel, `Question ${this.questions}. ${Entities.decode(question)}`);
+            let questionString = `Question ${this.questions}. ${Entities.decode(question)}`
             for (let i = 0; i < choices.length; i++) {
-              client.say(channel, `${letters[i]}) ${choices[i]}`)
-            }
+                questionString+=`  (${letters[i]}) ${choices[i]}`
+              }
+            client.say(channel, questionString);
             game.collectingAnswers = true;
         }).catch(e => {
             console.log('ERROR fetching a question')
@@ -85,14 +85,16 @@ class TriviaGame {
         });
         setTimeout(() => this.distributePoints.call(this), 30000)
     }
+    winners() {
+        return this.roundWinners.length > 0 ? this.roundWinners.join(', ') : 'none';
+    }
     distributePoints() {
-        const { roundWinners, client, channel, correctAnswer } = this;
+        const { roundWinners, client, channel, correctAnswer, winners } = this;
         this.collectingAnswers = false;
         const game = this;
         postWinners(roundWinners).then(() => {
-            client.say(channel, `The answer was ${correctAnswer}`);
-            client.say(channel, `Type !gold to see your winnings`);
-            game.askQuestion.call(game)
+            client.say(channel, `The answer was ${correctAnswer}. (winners: ${winners.call(game)}) \r\nType !gold to see your winnings`);
+            setTimeout(() => game.askQuestion.call(game), 10)
         }).catch(e => {
             console.log('ERROR POSTING ROUND WINNERS');
             console.log(e);
