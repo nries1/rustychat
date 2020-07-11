@@ -3,6 +3,6 @@ const { User } = require(`./models/index`);
 
 module.exports = {
     db,
-    environment
+    environment,
     User
 }
