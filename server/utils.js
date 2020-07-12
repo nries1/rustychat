@@ -66,7 +66,7 @@ const initTwitchClientDev = () => {
 
 const initTwitchClientProd = async () => {
     const keys = (await Key.findAll())[0].dataValues;
-    const twitchClient = TwitchClient.withCredentials(clientId, accessToken, undefined, {
+    const twitchClient = TwitchClient.withCredentials(keys.CLIENT_ID, keys.ACCESS_TOKEN, undefined, {
         clientSecret: keys.CLIENT_SECRET,
         refreshToken: keys.REFRESH_TOKEN,
         expiry: keys.EXPIRY_TIMESTAMP === null ? null : new Date(keys.EXPIRY_TIMESTAMP),
@@ -76,7 +76,7 @@ const initTwitchClientProd = async () => {
                         ACCESS_TOKEN: accessToken,
                         REFRESH_TOKEN: refreshToken,
                         EXPIRY_TIMESTAMP: expiryDate === null ? null : expiryDate.getTime(),
-                    }, { where: { CLIENT_ID: keys.clientId } })
+                    }, { where: { CLIENT_ID: keys.CLIENT_ID } })
             } catch(e) {
                 console.log('ERROR UPDATING REFRESH TOKEN');
                 console.log(e);
