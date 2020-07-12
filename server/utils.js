@@ -66,11 +66,10 @@ const initTwitchClientDev = () => {
 
 const initTwitchClientProd = async () => {
     const keys = (await Key.findAll())[0].dataValues;
-    const expiryTimestamp = keys.EXPIRY_TIMESTAMP;
     const twitchClient = TwitchClient.withCredentials(clientId, accessToken, undefined, {
-        clientSecret,
-        refreshToken,
-        expiry: expiryTimestamp === null ? null : new Date(expiryTimestamp),
+        clientSecret: keys.CLIENT_SECRET,
+        refreshToken: keys.REFRESH_TOKEN,
+        expiry: keys.EXPIRY_TIMESTAMP === null ? null : new Date(keys.EXPIRY_TIMESTAMP),
         onRefresh: async ({ accessToken, refreshToken, expiryDate }) => {
             try {
                 await Key.update({
