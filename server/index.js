@@ -1,5 +1,6 @@
 const { initTwitchClientDev, initTwitchClientProd, startDb, initChatClient } = require('./utils');
-const app = require('express');
+const express = require('express');
+const app = express();
 const PORT = process.env.PORT || 3000
 
 async function main() {
