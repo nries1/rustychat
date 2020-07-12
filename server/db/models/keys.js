@@ -21,6 +21,9 @@ const Key = db.define('Key', {
       EXPIRY_TIMESTAMP: {
           type: BIGINT,
       },
+      REFRESH_TOKEN :{
+          type: STRING
+      },
       PSQL_PW: {
           type: STRING,
       },
