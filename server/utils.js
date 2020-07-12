@@ -66,7 +66,8 @@ const initTwitchClientDev = () => {
 
 const initTwitchClientProd = async () => {
     const keys = (await Key.findAll())[0].dataValues;
-    console.log('keys ', keys);
+    console.log('keys = ', keys);
+    console.log('creating twitch client');
     const twitchClient = TwitchClient.withCredentials(keys.CLIENT_ID, keys.ACCESS_TOKEN, undefined, {
         clientSecret: keys.CLIENT_SECRET,
         refreshToken: keys.REFRESH_TOKEN,
@@ -125,21 +126,8 @@ const initChatClient = async (twitchClient, channels) => {
     });
 }
 
-const seed = async () => {
-    await Key.create({
-        CLIENT_ID: 'so219gy6n0wpgx11yo1nllno8grkho',
-        CLIENT_SECRET: 'caxwy1batywpjj17psquklp994mlbc',
-        ACCESS_TOKEN: 'ln6wcp3456m3oqagjmsnvhkwxw8t9h',
-        REFRESH_TOKEN: 'i47xl3zq6g8jmflzsejg121n2rvi2sbb8mzxvyxn24io1hnvqq',
-        EXPIRY_TIMESTAMP: 1594421686631,
-        PSQL_PW: '8624',
-        PSQL_USER: 'postgres'
-    })
-}
-
 const startDb = async () => {
   await db.sync({ force: false })
-  await seed();
 }
 
 module.exports = {

@@ -1,6 +1,7 @@
 const { initTwitchClientDev, initTwitchClientProd, startDb, initChatClient } = require('./utils');
 
 async function main() {
+    console.log(`rustybot starting in ${process.env.NODE_ENV} mode`)
     const twitchClient = process.env.NODE_ENV === `production` ? initTwitchClientProd() : initTwitchClientDev();
     initChatClient(twitchClient, ['RylaiCrestfallen', 'rustydota2'])
 }
