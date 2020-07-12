@@ -1,4 +1,4 @@
-const { initTwitchClientDev, initTwitchClientProd startDb, initChatClient } = require('./utils');
+const { initTwitchClientDev, initTwitchClientProd, startDb, initChatClient } = require('./utils');
 
 async function main() {
     const twitchClient = process.env.NODE_ENV === `production` ? initTwitchClientProd() : initTwitchClientDev();
