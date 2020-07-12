@@ -1,8 +1,8 @@
-const { db, environment } = require(`./database`);
-const { User } = require(`./models/index`);
+const db = require(`./database`);
+const { User, Key } = require(`./models/index`);
 
 module.exports = {
     db,
-    environment,
-    User
+    User,
+    Key
 }

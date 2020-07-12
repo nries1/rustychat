@@ -1,7 +1,7 @@
-const { initTwitchClient, startDb, initChatClient } = require('./utils');
+const { initTwitchClientDev, initTwitchClientProd startDb, initChatClient } = require('./utils');
 
 async function main() {
-    const twitchClient = initTwitchClient();
+    const twitchClient = process.env.NODE_ENV === `production` ? initTwitchClientProd() : initTwitchClientDev();
     initChatClient(twitchClient, ['RylaiCrestfallen', 'rustydota2'])
 }
 

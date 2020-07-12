@@ -8,7 +8,8 @@
     "start-dev-mc": "SET NODE_ENV=development && SET PLATFORM=windows && npm run start-server",
     "start-dev": "NODE_ENV=development npm run start-server",
     "start-server": "nodemon ./server/index.js",
-    "start": "NODE_ENV=production node server/index.js"
+    "start": "NODE_ENV=production node server/index.js",
+    "seed": "SET NODE_ENV=development && SET PLATFORM=windows && node seed.js"
   },
   "keywords": [],
   "author": "",

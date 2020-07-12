@@ -2,7 +2,7 @@ const TwitchClient = require('twitch');
 const ChatClient = require('twitch-chat-client');
 const { dota2 } = require('../emotes');
 const fs = require('fs');
-const { db, environment, User } = require('./db');
+const { db, User, Key } = require('./db');
 const { TriviaGame } = require('./trivia');
 
 const parseEnv = () => {
@@ -36,7 +36,7 @@ const tellGold = (client, channel, username) => {
     })
 }
 
-const initTwitchClient = (env) => {
+const initTwitchClientDev = () => {
     const clientId = environment.CLIENT_ID;
     const accessToken = environment.ACCESS_TOKEN;
     const refreshToken = environment.REFRESH_TOKEN;
@@ -58,7 +58,30 @@ const initTwitchClient = (env) => {
                 PSQL_PW: dbPw,
                 PSQL_USER: dbUn
             };
-            await writeEnv(newTokenData)  // fs.writeFile('./tokens.json', JSON.stringify(newTokenData, null, 4), 'UTF-8')
+            await writeEnv(newTokenData);
+        }
+    });
+    return twitchClient
+}
+
+const initTwitchClientProd = async () => {
+    const keys = (await Key.findAll())[0].dataValues;
+    const expiryTimestamp = keys.EXPIRY_TIMESTAMP;
+    const twitchClient = TwitchClient.withCredentials(clientId, accessToken, undefined, {
+        clientSecret,
+        refreshToken,
+        expiry: expiryTimestamp === null ? null : new Date(expiryTimestamp),
+        onRefresh: async ({ accessToken, refreshToken, expiryDate }) => {
+            try {
+                await Key.update({
+                        ACCESS_TOKEN: accessToken,
+                        REFRESH_TOKEN: refreshToken,
+                        EXPIRY_TIMESTAMP: expiryDate === null ? null : expiryDate.getTime(),
+                    }, { where: { CLIENT_ID: keys.clientId } })
+            } catch(e) {
+                console.log('ERROR UPDATING REFRESH TOKEN');
+                console.log(e);
+            } 
         }
     });
     return twitchClient
@@ -109,7 +132,8 @@ const startDb = async () => {
 module.exports = {
     parseEnv,
     writeEnv,
-    initTwitchClient,
+    initTwitchClientDev,
+    initTwitchClientProd,
     initChatClient,
     startDb,
     tellGold
