@@ -78,7 +78,7 @@ class TriviaGame {
               }
             client.say(channel, questionString);
             game.collectingAnswers = true;
-            setTimeout(() => game.distributePoints.call(game), 30000)
+            setTimeout(() => game.distributePoints.call(game), 450000)
         }).catch(e => {
             console.log('ERROR fetching a question')
             console.log(e);
