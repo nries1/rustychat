@@ -4,7 +4,7 @@ const { dota2 } = require('../emotes');
 const fs = require('fs');
 const { db, User, Key } = require('./db');
 const { TriviaGame } = require('./trivia');
-const { Axios } = require('axios');
+const Axios= require('axios');
 
 const parseEnv = () => {
     const data = fs.readFileSync('.env', {encoding:'utf8', flag:'r'});
