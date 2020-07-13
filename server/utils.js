@@ -24,6 +24,8 @@ const writeEnv = tokenObj => {
 }
 
 const getgold = async (name) => {
+    const user = (await User.findOne({ where: { name } }));
+    if (!user) await (User.create({ name, gold: 0 }))
     const gold = (await User.findOne({ where: { name } })).gold;
     return gold;
 }
