@@ -93,9 +93,10 @@ class TriviaGame {
         this.collectingAnswers = false;
         const game = this;
         postWinners(roundWinners).then(() => {
-            client.say(channel, `The answer was ${correctAnswer}. (winners: ${winners.call(game)}) \r\nType !gold to see your winnings`);
+            client.say(channel, `The answer was ${correctAnswer}. (winners: ${winners.call(game)}) Type !gold to see your winnings`);
             setTimeout(() => game.askQuestion.call(game), 60000)
         }).catch(e => {
+            client.say(channel, `Couldn't declare a winner :(`);
             console.log('ERROR POSTING ROUND WINNERS');
             console.log(e);
         })

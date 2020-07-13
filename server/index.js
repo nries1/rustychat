@@ -1,7 +1,12 @@
-const { initTwitchClientDev, initTwitchClientProd, startDb, initChatClient } = require('./utils');
+const { initTwitchClientDev, initTwitchClientProd, startDb, initChatClient, keepAlive } = require('./utils');
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000
+
+
+app.get('/', (req, res, next) => {
+    return res.status(200).send(`I'm alive.`)
+})
 
 async function main() {
     console.log(`rustybot starting in ${process.env.NODE_ENV} mode`)
@@ -18,6 +23,8 @@ const startConnection = () => {
             app.listen(PORT, () => {
                 console.log(`rustybot server is listening on port ${PORT}`)
             });
+        }).then(() => {
+            keepAlive()
         }).catch(e => {
             console.log('connection error ', e)
         })
