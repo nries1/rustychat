@@ -32,7 +32,7 @@ class TriviaGame {
         const { client, channel, askQuestion } = this;
         this.on = true;
         console.log(`Trivia game started on ${channel}`)
-        client.say(channel, `Sup chat! I'm Trivia Bot :) \r\n Gimme a sec to load some questions...`);
+        client.say(channel, `Sup chat. I'm Trivia Bot :) \r\n Gimme a sec to load some questions...`);
         askQuestion.call(this);
     }
     stop() {
@@ -58,7 +58,7 @@ class TriviaGame {
         this.roundWinners = [];
         this.roundChoices = {};
     }
-    askQuestion() {
+    askQuestion(single) {
         const { client, on, scrambleChoices, channel, choicesObject } = this;
         if (!on) return
         this.questions++;
@@ -78,12 +78,12 @@ class TriviaGame {
               }
             client.say(channel, questionString);
             game.collectingAnswers = true;
+            setTimeout(() => game.distributePoints.call(game), 30000)
         }).catch(e => {
             console.log('ERROR fetching a question')
             console.log(e);
             client.say(channel, 'Looks like someone forgot to pay the cable bill...\r\nNo question for you :(')
         });
-        setTimeout(() => this.distributePoints.call(this), 30000)
     }
     winners() {
         return this.roundWinners.length > 0 ? this.roundWinners.join(', ') : 'none';
@@ -94,7 +94,7 @@ class TriviaGame {
         const game = this;
         postWinners(roundWinners).then(() => {
             client.say(channel, `The answer was ${correctAnswer}. (winners: ${winners.call(game)}) \r\nType !gold to see your winnings`);
-            setTimeout(() => game.askQuestion.call(game), 10)
+            setTimeout(() => game.askQuestion.call(game), 60000)
         }).catch(e => {
             console.log('ERROR POSTING ROUND WINNERS');
             console.log(e);

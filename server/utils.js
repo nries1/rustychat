@@ -108,12 +108,13 @@ const initChatClient = async (twitchClient, channels) => {
             game = new TriviaGame(chatClient, channel);
             game.start()
         } else if (message === '!stop-trivia') {
-            if (game.stop) game.stop()
+            if (game) game.stop()
         } else if (['a','b','c','d','A','B','C','D'].indexOf(message) !== -1) {
-            if (game.guess) game.guess(message, user)
+            if (game) game.guess(message, user)
         } else if (message === '!gold') {
             tellGold(chatClient, channel, user);
         }
+
     });
     chatClient.onSub((channel, user) => {
         chatClient.say(channel, `Thanks to @${user} for subscribing to the channel!`);
