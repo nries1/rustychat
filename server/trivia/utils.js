@@ -78,7 +78,7 @@ class TriviaGame {
               }
             client.say(channel, questionString);
             game.collectingAnswers = true;
-            setTimeout(() => game.distributePoints.call(game), 450000)
+            setTimeout(() => game.distributePoints.call(game), 1000 * 45)
         }).catch(e => {
             console.log('ERROR fetching a question')
             console.log(e);
@@ -94,7 +94,7 @@ class TriviaGame {
         const game = this;
         postWinners(roundWinners).then(() => {
             client.say(channel, `The answer was ${correctAnswer}. (winners: ${winners.call(game)}) Type !gold to see your winnings`);
-            setTimeout(() => game.askQuestion.call(game), 60000)
+            setTimeout(() => game.askQuestion.call(game), 1000 * 60)
         }).catch(e => {
             client.say(channel, `Couldn't declare a winner :(`);
             console.log('ERROR POSTING ROUND WINNERS');
