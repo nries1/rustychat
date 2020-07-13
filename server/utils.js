@@ -93,9 +93,6 @@ const initChatClient = async (twitchClient, channels) => {
     const chatClient = ChatClient.forTwitchClient(twitchClient, { channels, requestMembershipEvents: true });
     await chatClient.connect();
     let game;
-    chatClient.onJoin((channel, user) => {
-        chatClient.say(channel, `${user} joined the channel`);
-    })
     chatClient.onPrivmsg((channel, user, message) => {
         console.log(`message received from ${user}`);
         if (message === '!suprusty') {
